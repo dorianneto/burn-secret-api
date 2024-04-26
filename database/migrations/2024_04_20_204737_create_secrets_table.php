@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('secrets', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('secret_key')->unique()->index();
-            $table->integer('ttl');
+            $table->integer('ttl')->default(0);
             $table->longText('secret');
-            $table->tinyText('passphrase');
+            $table->tinyText('passphrase')->nullable();
             $table->timestamps();
 
             $table->index('secret_key');

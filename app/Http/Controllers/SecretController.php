@@ -47,6 +47,17 @@ class SecretController extends Controller
 
     public function burn(Request $request, string $secret): JsonResponse
     {
-        return response()->json([]);
+        try {
+            $this->secretRepository->delete(new SecretInput(
+                secretKey: $secret,
+            ));
+        } catch (QueryException $exception) {
+            return response()->json([
+                'message' => 'Error on deleting secret',
+                'errors' => $exception->getMessage(),
+            ], 500);
+        }
+
+        return response()->json([], 204);
     }
 }

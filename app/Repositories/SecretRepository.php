@@ -19,4 +19,9 @@ class SecretRepository
 
         return $secret;
     }
+
+    public function delete(SecretInput $input): bool
+    {
+        return Secret::where('secret_key', $input->getSecretKey())->delete();
+    }
 }

@@ -2,19 +2,21 @@
 
 namespace App\Input;
 
+use Exception;
 use Ramsey\Uuid\Uuid;
 
 class SecretInput
 {
     public function __construct(
-        protected string $secret,
-        protected ?int $ttl,
-        protected ?string $passphrase,
+        protected ?string $secret = null,
+        protected ?string $secretKey = null,
+        protected ?int $ttl = null,
+        protected ?string $passphrase = null,
     ) {}
 
     public function getSecretKey(): string
     {
-        return Uuid::uuid4();
+        return $this->secretKey ?? Uuid::uuid4();
     }
 
     public function getTtl(): int
@@ -24,7 +26,7 @@ class SecretInput
 
     public function getSecret(): string
     {
-        return $this->secret;
+        return $this->secret ?? throw new Exception('Secret cannot be null');
     }
 
     public function getPassphrase(): ?string

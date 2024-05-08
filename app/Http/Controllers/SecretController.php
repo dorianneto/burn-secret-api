@@ -60,4 +60,22 @@ class SecretController extends Controller
 
         return response()->json([], 204);
     }
+
+    public function index(Request $request, string $secret): JsonResponse
+    {
+        try {
+            $secretData = $this->secretRepository->get(new SecretInput(
+                secretKey: $secret,
+            ));
+        } catch (QueryException $exception) {
+            return response()->json([
+                'message' => 'Error on getting secret',
+                'errors' => $exception->getMessage(),
+            ], 500);
+        }
+
+        return response()->json([
+            'data' => $secretData,
+        ], 200);
+    }
 }

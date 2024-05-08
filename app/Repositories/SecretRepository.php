@@ -24,4 +24,9 @@ class SecretRepository
     {
         return Secret::where('secret_key', $input->getSecretKey())->delete();
     }
+
+    public function get(SecretInput $input): ?Secret
+    {
+        return Secret::where('secret_key', $input->getSecretKey())->first();
+    }
 }
